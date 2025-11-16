@@ -115,5 +115,85 @@ public class AlgorithmAnalyzer {
             }
         }
     }
+    // Member 4 (22ug3-0591): Quick Sort Implementation
+    public static class QuickSortAnalyzer {
+        public static void quickSort(int[] arr, int low, int high) {
+            if (low < high) {
+                int pi = partition(arr, low, high);
+                quickSort(arr, low, pi - 1);
+                quickSort(arr, pi + 1, high);
+            }
+        }
+        
+        private static int partition(int[] arr, int low, int high) {
+            int pivot = arr[high];
+            int i = low - 1;
+            
+            for (int j = low; j < high; j++) {
+                if (arr[j] < pivot) {
+                    i++;
+                    // Swap
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+            
+            // Swap pivot
+            int temp = arr[i + 1];
+            arr[i + 1] = arr[high];
+            arr[high] = temp;
+            
+            return i + 1;
+        }
+        
+        public static void analyzeQuickSort() {
+            System.out.println("\n=== Member 4: Quick Sort ===");
+            System.out.println("Algorithm: Quick Sort");
+            System.out.println("Input Size | Time (ms)");
+            System.out.println("----------------------");
+            
+            int[] sizes = {100, 500, 1000};
+            
+            for (int size : sizes) {
+                int[] arr = generateRandomArray(size);
+                
+                long startTime = System.nanoTime();
+                quickSort(arr, 0, arr.length - 1);
+                long endTime = System.nanoTime();
+                
+                double timeMs = (endTime - startTime) / 1_000_000.0;
+                System.out.printf("%-10d | %.2f\n", size, timeMs);
+            }
+        }
+    }
     
+    // Utility method to generate random arrays
+    public static int[] generateRandomArray(int size) {
+        Random rand = new Random(42); // Fixed seed for consistency
+        int[] arr = new int[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = rand.nextInt(10000);
+        }
+        return arr;
+    }
+    
+    // Main method to run all analyses
+    public static void main(String[] args) {
+        System.out.println("╔════════════════════════════════════════════════╗");
+        System.out.println("   CIT300 Algorithm Performance Analysis       ");
+        System.out.println("   Graded Practical Assignment 3                 ");
+        System.out.println("╚════════════════════════════════════════════════╝");
+        
+        // Run each member's analysis
+        LinearSearchAnalyzer.analyzeLinearSearch();
+        BinarySearchAnalyzer.analyzeBinarySearch();
+        BubbleSortAnalyzer.analyzeBubbleSort();
+        QuickSortAnalyzer.analyzeQuickSort();
+        
+        System.out.println("\n" + "=".repeat(50));
+        System.out.println("Analysis Complete!");
+        System.out.println("=".repeat(50));
+    }
+}
     
